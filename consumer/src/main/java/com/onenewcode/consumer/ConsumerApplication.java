@@ -1,11 +1,11 @@
-package com.itheima.publisher;
+package com.onenewcode.consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PublisherApplication {
+public class ConsumerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(PublisherApplication.class);
+        SpringApplication.run(ConsumerApplication.class, args);
     }
 }
