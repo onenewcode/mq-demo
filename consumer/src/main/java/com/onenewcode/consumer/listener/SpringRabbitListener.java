@@ -1,5 +1,9 @@
 package com.onenewcode.consumer.listener;
 
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -36,21 +40,45 @@ public class SpringRabbitListener {
         System.out.println("消费者2接收到Fanout消息：【" + msg + "】");
     }
 
-    @RabbitListener(queues = "direct.queue1")
+//    @RabbitListener(queues = "direct.queue1")
+    /*
+    基于注解声明队列和交换机
+     */
+@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(name = "direct.queue1"),
+        exchange = @Exchange(name = "hmall.direct", type = ExchangeTypes.DIRECT),
+        key = {"red", "blue"}
+))
     public void listenDirectQueue1(String msg) {
         System.out.println("消费者1接收到direct.queue1的消息：【" + msg + "】");
     }
 
-    @RabbitListener(queues = "direct.queue2")
+//    @RabbitListener(queues = "direct.queue2")
+@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(name = "direct.queue2"),
+        exchange = @Exchange(name = "hmall.direct", type = ExchangeTypes.DIRECT),
+        key = {"red", "yellow"}
+))
     public void listenDirectQueue2(String msg) {
         System.out.println("消费者2接收到direct.queue2的消息：【" + msg + "】");
     }
-    @RabbitListener(queues = "topic.queue1")
+//    @RabbitListener(queues = "topic.queue1")
+@RabbitListener(bindings = @QueueBinding(
+        value = @Queue(name = "topic.queue1"),
+        exchange = @Exchange(name = "hmall.topic", type = ExchangeTypes.TOPIC),
+        key = "china.#"
+))
     public void listenTopicQueue1(String msg){
         System.out.println("消费者1接收到topic.queue1的消息：【" + msg + "】");
     }
 
-    @RabbitListener(queues = "topic.queue2")
+//    @RabbitListener(queues = "topic.queue2")
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "topic.queue2"),
+            exchange = @Exchange(name = "hmall.topic", type = ExchangeTypes.TOPIC),
+            key = "#.news"
+    ))
     public void listenTopicQueue2(String msg){
         System.out.println("消费者2接收到topic.queue2的消息：【" + msg + "】");
     }
