@@ -1,4 +1,6 @@
-package com.itheima.consumer.config;
+package com.onenewcode.consumer.config;
+
+
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
