@@ -1,15 +1,14 @@
 package com.onenewcode.consumer.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-
+@Slf4j
 @Component
 public class SpringRabbitListener {
     // 利用RabbitListener来声明要监听的队列信息
@@ -85,5 +84,22 @@ public class SpringRabbitListener {
     ))
     public void listenDirectQueue1(ArrayList<String> msg) {
         System.out.println("消费者1接收到direct.queue1的消息：【" + msg + "】");
+    }
+
+    @RabbitListener(queuesToDeclare = @Queue(
+            name = "lazy.queue",
+            durable = "true",
+            arguments = @Argument(name = "x-queue-mode", value = "lazy")
+    ))
+    public void listenLazyQueue(String msg){
+        log.info("接收到 lazy.queue的消息：{}", msg);
+    }
+    @RabbitListener(queues = "simple.queue")
+    public void listenSimpleQueueMessage(String msg) throws InterruptedException {
+        log.info("spring 消费者接收到消息：【" + msg + "】");
+        if (true) {
+            throw new MessageConversionException("故意的");
+        }
+        log.info("消息处理完成");
     }
 }
