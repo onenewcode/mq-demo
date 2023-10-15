@@ -63,4 +63,5 @@ public class DirectConfig {
     public Binding bindingQueue2WithYellow(Queue directQueue2, DirectExchange directExchange){
         return BindingBuilder.bind(directQueue2).to(directExchange).with("yellow");
     }
+
 }

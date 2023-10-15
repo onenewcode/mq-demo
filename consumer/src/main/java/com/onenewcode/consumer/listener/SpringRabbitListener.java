@@ -6,7 +6,7 @@ import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalTime;
+
 import java.util.ArrayList;
 @Slf4j
 @Component
