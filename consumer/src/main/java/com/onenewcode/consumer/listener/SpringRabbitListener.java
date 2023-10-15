@@ -102,4 +102,15 @@ public class SpringRabbitListener {
         }
         log.info("消息处理完成");
     }
+    /*
+    延时队列
+     */
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "delay.queue", durable = "true"),
+            exchange = @Exchange(name = "delay.direct", delayed = "true"),
+            key = "delay"
+    ))
+    public void listenDelayMessage(String msg){
+        log.info("接收到delay.queue的延迟消息：{}", msg);
+    }
 }
